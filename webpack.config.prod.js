@@ -8,6 +8,9 @@ module.exports = {
         filename: 'app.min.js',
     },
     resolve: {
+        alias: {
+            rx: 'rx/dist/rx.lite.js',
+        },
         root: path.resolve(__dirname),
     },
 };

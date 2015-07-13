@@ -16,3 +16,6 @@ describe('App suite', function() {
         should(document.getElementById('mainContainer').children.length).equal(1);
     });
 });
+require('./component-userList.jsx');
+require('./component-chatInput.jsx');
+require('./component-chatLog.jsx');
