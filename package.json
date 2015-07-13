@@ -1,0 +1,24 @@
+{
+  "name": "reactiveChatExample",
+  "version": "1.0.0",
+  "description": "Reactive chat application demo (based on Turris.js and Rxmq.js)",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test",
+    "start": "gulp",
+    "build": "gulp build",
+    "deploy": "gulp deploy"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "react": "^0.13.2",
+    "react-router": "^0.13.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "turris-gulp-tasks": "^0.7.0",
+    "turris-test-helpers": "^0.1.2"
+  }
+}
