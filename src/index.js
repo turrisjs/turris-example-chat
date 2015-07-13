@@ -4,5 +4,7 @@ if (__WEBPACK__) {
     require('../style/main.less');
 }
 import App from './app.jsx';
+// import main store
+import './stores/chatStore';
 
 App.start();

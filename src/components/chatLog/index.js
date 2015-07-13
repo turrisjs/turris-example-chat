@@ -2,7 +2,7 @@
 
 */
 import React from 'react';
-import moment from 'moment';
+import rxmq from 'rxmq';
 import Template from './template.jsx';
 // only load style when using webpack
 /* istanbul ignore if  */
@@ -12,17 +12,18 @@ if (__WEBPACK__) {
 
 const ChatLogComponent = React.createClass({
     getInitialState() {
-        return {
-            messages: [{
-                time: moment().calendar(),
-                text: 'I am text',
-                user: 'username'
-            }, {
-                time: moment().calendar(),
-                text: 'I am other text',
-                user: 'Other username'
-            }],
-        };
+        this.sub = rxmq
+            .channel('chat').subject('messages')
+            .subscribe(this.handleMessage);
+        return {messages: []};
+    },
+    componentWillUnmount() {
+        this.sub.dispose();
+    },
+    handleMessage(msg) {
+        const {messages} = this.state;
+        messages.push(msg);
+        this.setState({messages});
     },
     render: Template,
 });

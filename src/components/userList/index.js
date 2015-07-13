@@ -2,6 +2,8 @@
 
 */
 import React from 'react';
+import rxmq from 'rxmq';
+import _ from 'lodash';
 import Template from './template.jsx';
 
 // only load style when using webpack
@@ -12,13 +14,24 @@ if (__WEBPACK__) {
 
 const UserListComponent = React.createClass({
     getInitialState() {
+        this.sub = rxmq
+            .channel('chat').subject('users')
+            .subscribe(this.handleUser);
         return {
-            users: [{
-                username: 'Username',
-            }, {
-                username: 'Other username',
-            }]
+            users: []
         };
+    },
+    componentWillUnmount() {
+        this.sub.dispose();
+    },
+    handleUser(user) {
+        const {users} = this.state;
+        if (user.action === 'joined') {
+            users.push(user);
+        } else {
+            _.remove(users, {username: user.username});
+        }
+        this.setState({users});
     },
     render: Template,
 });

@@ -1,4 +1,5 @@
 var path = require('path');
+var startSocketServer = require('./server/ws.server');
 
 module.exports = {
     path: path.resolve(__dirname),
@@ -13,5 +14,8 @@ module.exports = {
         app.get('/api/', function(req, res) {
             res.send('OK');
         });
-    }
+    },
+    serverStart: function(server) {
+        startSocketServer(server);
+    },
 };
