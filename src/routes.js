@@ -3,7 +3,7 @@ import Index from './pages/index/index.js';
 import NotFound from './pages/notfound/index.js';
 
 // create route array
-let routes = [
+const routes = [
     Index,
     NotFound,
 ];

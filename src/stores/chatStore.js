@@ -20,7 +20,7 @@ const socket = socketClient('http://localhost:8081');
 const connect = Rx.Observable.fromEvent(socket, 'connect').map(() => true);
 const disconnect = Rx.Observable.fromEvent(socket, 'disconnect').map(() => false);
 // multicast into status stream
-const status = connect.merge(disconnect).multicast(statusStream).connect();
+connect.merge(disconnect).multicast(statusStream).connect();
 
 // name handling
 const name = Rx.Observable.fromEvent(socket, 'name');
@@ -40,12 +40,9 @@ const newUser = Rx.Observable.fromEvent(socket, 'user joined').map((username) =>
 const userLeft = Rx.Observable.fromEvent(socket, 'user left').map((username) => {
     return {action: 'left', username};
 });
-const users = newUser.merge(userLeft).multicast(usersStream).connect();
+newUser.merge(userLeft).multicast(usersStream).connect();
 
 // handle sending
-sendStream.subscribe((msg) => {
-    console.log('sending: ', msg);
-    socket.emit('chat message', msg);
-});
+sendStream.subscribe((msg) => socket.emit('chat message', msg));
 
 export default chatChannel;

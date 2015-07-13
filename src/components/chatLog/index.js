@@ -15,15 +15,33 @@ const ChatLogComponent = React.createClass({
         this.sub = rxmq
             .channel('chat').subject('messages')
             .subscribe(this.handleMessage);
-        return {messages: []};
+        return {messages: {}};
     },
     componentWillUnmount() {
         this.sub.dispose();
     },
     handleMessage(msg) {
         const {messages} = this.state;
-        messages.push(msg);
+        messages[msg.text + msg.user] = msg;
         this.setState({messages});
+    },
+    getValues() {
+        const {messages} = this.state;
+        const configs = {};
+        Object.keys(messages).forEach(key => {
+            const msg = messages[key];
+            configs[msg.text + msg.user] = {
+                opacity: {val: 1},
+                data: msg,
+            };
+        });
+        return configs;
+    },
+    willEnter(txt) {
+        return {
+            opacity: {val: 0},
+            data: this.state.messages[txt],
+        };
     },
     render: Template,
 });
